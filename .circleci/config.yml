@@ -25,7 +25,7 @@ jobs:
           command: ./gradlew lint test
      - run:
        name: Run Tests Instrument
-       command: ./gradlew app:FirstTest -P android.testInstrumentationRunnerArguments.class=com.mytaxi.android_demo.FirstTest#testLoginSearch
+       command: ./gradlew test
 
 
       - store_artifacts:
