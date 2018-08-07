@@ -1,8 +1,11 @@
 MobileAppAutomationTest
 
-Hi ALL,
+Hi All,
 
-🎈 Welcome to the mobile test challenge.
+As I was not haveing any experience on espresso and CircleCI, It was really great experience to complete the task,
+FirstinstrumentationTest is the file used for Espresso.
+
+
 
 As a talented QA engineer, your task is to write pretty and stable Android UI tests with Espresso for the given Android source code / app.
 
@@ -11,7 +14,7 @@ As a talented QA engineer, your task is to write pretty and stable Android UI te
 Login case, the up-to-date credential (username & password) you can find here).
 Search for "sa", select the 2nd result (via the name, not the index) from the list, then click the call button.
 Deploy the tests on CircleCI, and send us the link to the CircleCI builds overview page.
-📖 Rules:
+
 
 The only rule is to use Espresso ☕ ;)
 Don't worry if you have no Espresso experience, we believe that you're a fast learner, and we'd like to give you enough time to finish this challenge.
