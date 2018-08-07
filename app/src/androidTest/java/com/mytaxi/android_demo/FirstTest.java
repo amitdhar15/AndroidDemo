@@ -1,6 +1,6 @@
-//Login case, the up-to-date credential (username & password) you can find here).
-// Search for "sa", select the 2nd result (via the name, not the index) from the list, then click the call button.
-// Author Amit Dhar
+/**
+ * Created by Amit Dhar on 8/7/2018.
+ */
 
 package com.mytaxi.android_demo;
 
@@ -49,8 +49,9 @@ public class FirstTest {
         //Before Test case execution
     }
 
+    // Login case, the up-to-date credential (username & password)
     @Test
-    public void testLoginSearch() {
+    public void testLogin() {
 
        onView(withId(R.id.edt_username)).check(matches(isDisplayed()));
        onView(withId(R.id.edt_username)).perform(replaceText(username));
@@ -58,25 +59,42 @@ public class FirstTest {
        onView(withId(R.id.edt_password)).perform(replaceText(password));
        onView(withId(R.id.btn_login)).check(matches(isDisplayed()));
        onView(withId(R.id.btn_login)).perform(click());
-       waitFor(15);
-       onView(withId(R.id.textSearch)).check(matches(isDisplayed()));
-       onView(withId(R.id.textSearch)).perform(typeText(searchKeyword));
-       onView(withText("Sarah Scott")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
-       onView(withId(R.id.fab)).check(matches(isDisplayed()));
-       onView(withId(R.id.fab)).perform(click());
 
     }
 
 
-    @Ignore
-    public void testSearch() throws IOException, JSONException {
-        // ReadJson("username");
-        fetchData j = new fetchData();
-        String username = (String) j.doInBackground("username");
+    // Search for "sa", select the 2nd result (via the name, not the index)
+    @Test
+    public void testSearchViaName() {
+
         onView(withId(R.id.edt_username)).check(matches(isDisplayed()));
         onView(withId(R.id.edt_username)).perform(replaceText(username));
+        onView(withId(R.id.edt_password)).check(matches(isDisplayed()));
+        onView(withId(R.id.edt_password)).perform(replaceText(password));
+        onView(withId(R.id.btn_login)).check(matches(isDisplayed()));
+        onView(withId(R.id.btn_login)).perform(click());
         waitFor(15);
+        onView(withId(R.id.textSearch)).check(matches(isDisplayed()));
+        onView(withId(R.id.textSearch)).perform(typeText(searchKeyword));
+        onView(withText("Sarah Scott")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
+    }
 
+    // from the list, then click the call button
+    @Test
+    public void testListClick() {
+
+        onView(withId(R.id.edt_username)).check(matches(isDisplayed()));
+        onView(withId(R.id.edt_username)).perform(replaceText(username));
+        onView(withId(R.id.edt_password)).check(matches(isDisplayed()));
+        onView(withId(R.id.edt_password)).perform(replaceText(password));
+        onView(withId(R.id.btn_login)).check(matches(isDisplayed()));
+        onView(withId(R.id.btn_login)).perform(click());
+        waitFor(15);
+        onView(withId(R.id.textSearch)).check(matches(isDisplayed()));
+        onView(withId(R.id.textSearch)).perform(typeText(searchKeyword));
+        onView(withText("Sarah Scott")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
+        onView(withId(R.id.fab)).check(matches(isDisplayed()));
+        onView(withId(R.id.fab)).perform(click());
     }
 
 
