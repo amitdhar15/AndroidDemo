@@ -1,12 +1,9 @@
-
-
-/*
- * Created by Amit Dhar on 8/7/2018.
- */
+//Login case, the up-to-date credential (username & password) you can find here).
+// Search for "sa", select the 2nd result (via the name, not the index) from the list, then click the call button.
+// Author Amit Dhar
 
 package com.mytaxi.android_demo;
 
-import static android.app.PendingIntent.getActivity;
 import static android.support.test.espresso.Espresso.onView;
 import android.support.test.espresso.matcher.RootMatchers;
 import android.support.test.filters.LargeTest;
@@ -23,6 +20,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import java.io.IOException;
+import java.security.PublicKey;
+
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.action.ViewActions.typeText;
@@ -36,11 +35,11 @@ import static com.mytaxi.android_demo.utility.waitFor;
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-class FirstinstrumentationTest {
+public class FirstTest {
 
-    private static String username = "crazydog335";
-    private static String password = "venture";
-    private static String searchKeyword = "sa";
+    public static String username = "crazydog335";
+    public static String password = "venture";
+    public static String searchKeyword = "sa";
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(
@@ -53,7 +52,7 @@ class FirstinstrumentationTest {
     }
 
     //Login case, the up-to-date credential (username & password) you can find here).
-   // Search for "sa", select the 2nd result (via the name, not the index) from the list, then click the call button.
+    // Search for "sa", select the 2nd result (via the name, not the index) from the list, then click the call button.
     //Deploy the tests on CircleCI, and send us the link to the CircleCI builds overview page.
 
     @Test
@@ -75,11 +74,14 @@ class FirstinstrumentationTest {
     }
 
 
-      @After
+    @After
     public void tearDown()  {
         //After Test case Execution
 
     }
+
+
+
 
 
 
