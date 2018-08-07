@@ -34,7 +34,7 @@ import static com.mytaxi.android_demo.utility.waitFor;
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class FirstTest {
+class FirstinstrumentationTest {
 
     public static String username = "crazydog335";
     public static String password = "venture";
