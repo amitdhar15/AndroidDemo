@@ -1,4 +1,6 @@
-/**
+
+
+/*
  * Created by Amit Dhar on 8/7/2018.
  */
 
@@ -36,9 +38,9 @@ import static com.mytaxi.android_demo.utility.waitFor;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class FirstinstrumentationTest {
 
-    public static String username = "crazydog335";
-    public static String password = "venture";
-    public static String searchKeyword = "sa";
+    private static String username = "crazydog335";
+    private static String password = "venture";
+    private static String searchKeyword = "sa";
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(
@@ -46,7 +48,7 @@ class FirstinstrumentationTest {
 
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp()  {
         //Before Test case execution
     }
 
@@ -74,7 +76,7 @@ class FirstinstrumentationTest {
 
 
       @After
-    public void tearDown() throws Exception {
+    public void tearDown()  {
         //After Test case Execution
 
     }
