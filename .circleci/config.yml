@@ -23,9 +23,6 @@ jobs:
       - run:
           name: Run Tests
           command: ./gradlew lint test
-      - run:
-          name: Run Tests Instrumantion
-          command: ./gradlew FirstTest -i
       - store_artifacts:
           path: app/build/reports
           destination: reports
