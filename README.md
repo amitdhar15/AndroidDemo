@@ -3,7 +3,7 @@ MobileAppAutomationTest
 Hi All,
 
 As I was not haveing any experience on espresso and CircleCI, It was really great experience to complete the task,
-FirstinstrumentationTest is the file used for Espresso.
+FirstTest is the file used for Espresso.
 
 
 

@@ -1,6 +1,10 @@
 package com.mytaxi.android_demo;
 
+import android.content.Context;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
+
+import junit.framework.Assert;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,8 +24,8 @@ public class ExampleInstrumentedTest {
     @Test
     public void useAppContext() {
         // Context of the app under test.
-       // Context appContext = InstrumentationRegistry.getTargetContext();
-        onView(withText("LOGIN")).perform(click());
-       // assertEquals("com.mytaxi.android_demo", appContext.getPackageName());
+       Context appContext = InstrumentationRegistry.getTargetContext();
+
+       Assert.assertEquals("com.mytaxi.android_demo", appContext.getPackageName());
     }
 }
