@@ -39,11 +39,14 @@ jobs:
           name: Launch emulator
           command: emulator -avd test -no-audio -no-window
           background: true
-      - run:
-          name: Wait for emulator
+       - run:
+          name: Wait emulator
           command: |
-            chmod +x android-wait-for-emulator
-            ./android-wait-for-emulator
+                 # wait for it to have booted
+                 circle-android wait-for-boot
+                 # unlock the emulator screen
+                 sleep 30
+                 adb shell input keyevent 82
       - run:
           name: Remove lock screen
           command: adb shell input keyevent 82
