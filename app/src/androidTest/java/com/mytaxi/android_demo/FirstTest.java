@@ -4,24 +4,22 @@
 
 package com.mytaxi.android_demo;
 
-import static android.support.test.espresso.Espresso.onView;
 import android.support.test.espresso.matcher.RootMatchers;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+
 import com.mytaxi.android_demo.activities.MainActivity;
-import org.json.JSONException;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
-import java.io.IOException;
-import java.security.PublicKey;
 
+import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.action.ViewActions.typeText;
@@ -57,6 +55,8 @@ public class FirstTest {
 
     @Test
     public void testLoginSearch() {
+
+        onView(withId(R.id.edt_username)).inRoot(RootMatchers.isFocusable()).check(matches(isDisplayed()));
 
         onView(withId(R.id.edt_username)).check(matches(isDisplayed()));
         onView(withId(R.id.edt_username)).perform(replaceText(username));
