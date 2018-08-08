@@ -21,10 +21,7 @@ jobs:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
 
-       - run:
-                name: Run UnitTest
-                command: ./gradlew testDemoDebugUnitTest
-            - run:
+             - run:
                 name: Setup emulator
                 command: sdkmanager "system-images;android-16;default;armeabi-v7a" && echo "no" | avdmanager create avd -n test -k "system-images;android-16;default;armeabi-v7a"
             - run:
@@ -42,11 +39,7 @@ jobs:
             - run:
                 name: Run EspressoTests
                 command: ./gradlew connectedDemoDebugAndroidTest
-            - store_artifacts:
-                path: app/build/reports
-                destination: reports
-            - store_test_results:
-                path: app/build/test-results
+
 
 
 
