@@ -1,52 +1,53 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/code
+    working_directory: ~/mern-starter
+    # The primary container is an instance of the first image listed. The job's commands run in this container.
     docker:
-      # Android the primary container
-      - image: circleci/android:api-26-alpha
-    environment:
-      JVM_OPTS: -Xmx3200m
+      - image: circleci/node:4.8.2-jessie
+    # The secondary container is an instance of the second listed image which is run in a common network where ports exposed on the primary container are available on localhost.
+      - image: mongo:3.4.4-jessie
     steps:
       - checkout
+      - run:
+          name: Update npm
+          command: 'sudo npm install -g npm@latest'
       - restore_cache:
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+          key: dependency-cache-{{ checksum "package.json" }}
       - run:
-         name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
-         command: sudo chmod +x ./gradlew
-
-      - run:
-          name: Download Dependencies
-          command: ./gradlew androidDependencies
+          name: Install npm wee
+          command: npm install
       - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
           paths:
-            - ~/.gradle
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+            - node_modules
+  test:
+    docker:
+      - image: circleci/node:4.8.2-jessie
+      - image: mongo:3.4.4-jessie
+    steps:
+      - checkout
       - run:
-         name: Run UnitTest
-         command: ./gradlew testDebugUnitTest
-
+          name: Test
+          command: npm test
       - run:
-          name: Setup emulator
-          command: sdkmanager "sdkmanager "system-images;android-24;default;x86_64"" && echo "no" | avdmanager create avd -n emulator_name -k "system-images;android-24;default;x86_64" -g "default"
-      - run:
-          name: Launch emulator
-          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel auto -verbose
-          background: true
-      - run:
-          name: Wait emulator
-          command: |
-            # wait for it to have booted
-            circle-android wait-for-boot
-            # unlock the emulator screen
-            sleep 30
-            adb shell input keyevent 82
-      - run:
-          name: Run EspressoTests
-          command: ./gradlew connectedAndroidTest
-
+          name: Generate code coverage
+          command: './node_modules/.bin/nyc report --reporter=text-lcov'
       - store_artifacts:
-          path: app/build/reports
-          destination: reports
-      - store_test_results:
-          path: app/build/test-results
+          path: test-results.xml
+          prefix: tests
+      - store_artifacts:
+          path: coverage
+          prefix: coverage
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
