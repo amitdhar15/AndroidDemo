@@ -1,53 +1,66 @@
+aliases:
+# Cache Management
+  - &restore-cache-gradle
+    keys:
+      - v1-gradle-{{ arch }}-{{ .Branch }}-{{ checksum "build.gradle" }}-{{ checksum "gradle.properties" }}
+      # Fallback in case checksum fails
+      - v1-gradle-{{ arch }}-{{ .Branch }}-{{ checksum "build.gradle" }}-
+      - v1-gradle-{{ arch }}-{{ .Branch }}-
+      # Fallback in case this is a first-time run on a fork
+      - v1-gradle-{{ arch }}-master-
+  - &save-cache-gradle
+    paths:
+      - ~/.gradle
+    key: v1-gradle-{{ arch }}-{{ .Branch }}-{{ checksum "build.gradle" }}-{{ checksum "gradle.properties" }}
+
 version: 2
 jobs:
   build:
-    working_directory: ~/mern-starter
-    # The primary container is an instance of the first image listed. The job's commands run in this container.
+    working_directory: ~/fresco
     docker:
-      - image: circleci/node:4.8.2-jessie
-    # The secondary container is an instance of the second listed image which is run in a common network where ports exposed on the primary container are available on localhost.
-      - image: mongo:3.4.4-jessie
+      - image: circleci/android:api-27-alpha
     steps:
       - checkout
       - run:
-          name: Update npm
-          command: 'sudo npm install -g npm@latest'
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+          name: Setup NDK
+          command: |
+            wget --quiet https://dl.google.com/android/repository/android-ndk-r17b-linux-x86_64.zip
+            unzip -q android-ndk-r17b-linux-x86_64.zip -d /home/circleci
+            echo "ndk.dir=/home/circleci/android-ndk-r17b" >> /home/circleci/fresco/local.properties
       - run:
-          name: Install npm wee
-          command: npm install
-      - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-          paths:
-            - node_modules
-  test:
-    docker:
-      - image: circleci/node:4.8.2-jessie
-      - image: mongo:3.4.4-jessie
-    steps:
-      - checkout
+          name: "NDK Fix: https://github.com/android-ndk/ndk/issues/188"
+          command: sudo apt-get install file
       - run:
-          name: Test
-          command: npm test
+          name: Setup emulator
+          command: |
+            sdkmanager "system-images;android-19;default;armeabi-v7a"
+            echo "no" | avdmanager create avd -n test -k "system-images;android-19;default;armeabi-v7a"
       - run:
-          name: Generate code coverage
-          command: './node_modules/.bin/nyc report --reporter=text-lcov'
-      - store_artifacts:
-          path: test-results.xml
-          prefix: tests
-      - store_artifacts:
-          path: coverage
-          prefix: coverage
-
-workflows:
-  version: 2
-  build_and_test:
-    jobs:
-      - build
-      - test:
-          requires:
-            - build
-          filters:
-            branches:
-              only: master
+          name: Launch emulator
+          command: emulator -avd test -no-audio -no-window
+          background: true
+      - run:
+          name: Wait for emulator
+          command: |
+            chmod +x android-wait-for-emulator
+            ./android-wait-for-emulator
+      - run:
+          name: Remove lock screen
+          command: adb shell input keyevent 82
+      - restore-cache: *restore-cache-gradle
+      - run:
+          name: Run Tests
+          command: ./gradlew test assembleDebug -PdisablePreDex
+      - save-cache: *save-cache-gradle
+      - run:
+          name: Run Instrumentation Tests
+          command: |
+            ./gradlew :samples:showcase:connectedInternalInstrumentationAndroidTest -PdisablePreDex
+      - run:
+          name: Copy Results
+          command: |
+            mkdir -p /home/circleci/test-results/junit
+            find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} /home/circleci/test-results/junit \;
+            cp -r samples/showcase/build/reports/androidTests /home/circleci/test-results
+      - test-results-store:
+          path: /home/circleci/test-results
