@@ -19,7 +19,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
-import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.replaceText;
@@ -29,7 +28,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.mytaxi.android_demo.utility.waitFor;
-import static org.hamcrest.core.IsAnything.anything;
 
 
 @RunWith(AndroidJUnit4.class)
@@ -57,10 +55,6 @@ public class FirstTest {
 
     @Test
     public void testLoginSearch() {
-
-
-        onData(anything()).inRoot(RootMatchers.isFocusable());
-        onView(withId(R.id.edt_username)).inRoot(RootMatchers.isTouchable()).check(matches(isDisplayed()));
 
         onView(withId(R.id.edt_username)).check(matches(isDisplayed()));
         onView(withId(R.id.edt_username)).perform(replaceText(username));
