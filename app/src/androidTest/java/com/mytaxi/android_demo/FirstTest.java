@@ -18,10 +18,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.matcher.RootMatchers.isPlatformPopup;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.mytaxi.android_demo.utility.waitFor;
 
 
@@ -50,7 +46,7 @@ public class FirstTest {
 
     @Test
     public void testLoginSearch() {
-        onView(withId(R.id.edt_username)).inRoot(isPlatformPopup()).perform(click());
+
 
      //   onView(withId(R.id.edt_username)).check(matches(isDisplayed()));
      //   onView(withId(R.id.edt_username)).perform(replaceText(username));
