@@ -52,8 +52,8 @@ public class FirstTest {
      //   onView(withId(R.id.edt_username)).perform(replaceText(username));
      //   onView(withId(R.id.edt_password)).check(matches(isDisplayed()));
      //   onView(withId(R.id.edt_password)).perform(replaceText(password));
-      //  onView(withId(R.id.btn_login)).check(matches(isDisplayed()));
-      //  onView(withId(R.id.btn_login)).perform(click());
+     //  onView(withId(R.id.btn_login)).check(matches(isDisplayed()));
+     //  onView(withId(R.id.btn_login)).perform(click());
         waitFor(15);
      //   onView(withId(R.id.textSearch)).check(matches(isDisplayed()));
      //   onView(withId(R.id.textSearch)).perform(typeText(searchKeyword));
